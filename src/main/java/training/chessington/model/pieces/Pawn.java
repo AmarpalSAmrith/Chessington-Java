@@ -17,13 +17,13 @@ public class Pawn extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         List <Move> allowedMove = new ArrayList<>();
 
-        if (colour.equals(PlayerColour.WHITE) && from.getRow() != 0) {
+        if (colour.equals(PlayerColour.WHITE) && from.getRow() != 0) { //WHITE
 
             if (board.get(from.plus(-1, 0)) == null) {
                 allowedMove.add(new Move(from, from.plus(-1, 0)));
             }
 
-            if (from.getRow() == 6 && board.get(from.plus(-2,0)) == null) {
+            if (from.getRow() == 6 && board.get(from.plus(-2,0)) == null && board.get(from.plus(-1,0)) == null) {
                 allowedMove.add(new Move(from, from.plus(-2, 0)));
             }
 
@@ -36,13 +36,13 @@ public class Pawn extends AbstractPiece {
             }
         }
 
-        if (colour.equals(PlayerColour.BLACK) && from.getRow() != 7) {
+        if (colour.equals(PlayerColour.BLACK) && from.getRow() != 7) { //BLACK
 
             if (board.get(from.plus(1, 0)) == null) {
                 allowedMove.add(new Move(from, from.plus(1, 0)));
             }
 
-            if (from.getRow() == 1 && board.get(from.plus(2, 0)) == null) {
+            if (from.getRow() == 1 && board.get(from.plus(2, 0)) == null && board.get(from.plus(1, 0)) == null) {
                 allowedMove.add(new Move(from, from.plus(2, 0)));
             }
             if (from.getCol() != 0 && board.get(from.plus(1, -1)) != null && board.get(from.plus(1, -1)).getColour().equals(PlayerColour.WHITE)) {
@@ -53,7 +53,6 @@ public class Pawn extends AbstractPiece {
                 allowedMove.add(new Move(from, from.plus(1, 1)));
             }
         }
-
 
         return allowedMove;
     }
