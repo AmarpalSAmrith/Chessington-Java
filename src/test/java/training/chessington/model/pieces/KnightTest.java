@@ -6,6 +6,7 @@ import training.chessington.model.Coordinates;
 import training.chessington.model.Move;
 import training.chessington.model.PlayerColour;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class KnightTest {
     @Test
-    public void whiteKnightCanMoveInLShape() {
+    public void knightCanMoveInLShape() {
         // Arrange
         Board board = Board.empty();
         Piece knight = new Knight(PlayerColour.BLACK);
@@ -37,5 +38,59 @@ public class KnightTest {
                 new Move(coords, coords.plus(-1,2)),
                 new Move(coords, coords.plus(-1,-2))
                 );
+    }
+    @Test
+    public void knightCannotMoveOffTheBoard() {
+
+//        Arrange
+        Board board = Board.empty();
+        Piece knight = new Knight(PlayerColour.BLACK);
+        Coordinates coords = new Coordinates(1, 0);
+        board.placePiece(coords, knight);
+//        Action
+        List<Move> moves = knight.getAllowedMoves(coords, board);
+
+//        Act
+        assertThat(moves).containsExactlyInAnyOrder(
+                new Move(coords, coords.plus(2,1)),
+                new Move(coords, coords.plus(1,2)),
+                new Move(coords, coords.plus(-1,2))
+                );
+    }
+    @Test
+    public void whiteKnightCannotCaptureOwnPiece() {
+        // Arrange
+        Board board = Board.empty();
+        Piece knight = new Knight(PlayerColour.WHITE);
+        Piece friendlyPiece = new Rook(PlayerColour.WHITE);
+        Coordinates knightCoords = new Coordinates(4, 4);
+        board.placePiece(knightCoords, knight);
+
+        Coordinates rookCoords = knightCoords.plus(-1, 2);
+        board.placePiece(rookCoords, friendlyPiece);
+
+        // Act
+        List<Move> moves = knight.getAllowedMoves(knightCoords, board);
+
+        // Assert
+        assertThat(moves).doesNotContain(new Move(knightCoords, rookCoords));
+    }
+    @Test
+    public void whiteKnightCanCaptureEnemyPiece() {
+        // Arrange
+        Board board = Board.empty();
+        Piece knight = new Knight(PlayerColour.WHITE);
+        Piece enemyPiece = new Rook(PlayerColour.BLACK);
+        Coordinates knightCoords = new Coordinates(4, 4);
+        board.placePiece(knightCoords, knight);
+
+        Coordinates rookCoords = knightCoords.plus(-1, 2);
+        board.placePiece(rookCoords, enemyPiece);
+
+        // Act
+        List<Move> moves = knight.getAllowedMoves(knightCoords, board);
+
+        // Assert
+        assertThat(moves).contains(new Move(knightCoords, rookCoords));
     }
 }
