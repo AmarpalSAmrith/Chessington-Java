@@ -44,16 +44,16 @@ public class RookTest {
         Coordinates rookCoords = new Coordinates(4, 4);
         board.placePiece(rookCoords, rook);
 
-        Coordinates knightLeftCoords = rookCoords.plus(4, 1);
+        Coordinates knightLeftCoords = new Coordinates(4, 1);
         board.placePiece(knightLeftCoords, friendlyPiece);
 
-        Coordinates knightRightCoords = rookCoords.plus(4, 6);
+        Coordinates knightRightCoords = new Coordinates(4, 6);
         board.placePiece(knightRightCoords, friendlyPiece);
 
-        Coordinates knightUpCoords = rookCoords.plus(1, 4);
+        Coordinates knightUpCoords = new Coordinates(1, 4);
         board.placePiece(knightUpCoords, friendlyPiece);
 
-        Coordinates knightDownCoords = rookCoords.plus(6, 4);
+        Coordinates knightDownCoords = new Coordinates(6, 4);
         board.placePiece(knightDownCoords, friendlyPiece);
 
         // Act
@@ -73,6 +73,44 @@ public class RookTest {
         impossibleMoves.add(new Move(rookCoords, knightUpCoords.plus(-1,0)));
         //knightDownCoords
         impossibleMoves.add(new Move(rookCoords, knightDownCoords));
+        impossibleMoves.add(new Move(rookCoords, knightDownCoords.plus(1,0)));
+
+        assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
+    }
+    @Test
+    public void whiteRookCanTakeEnemyPiece() {
+        // Arrange
+        Board board = Board.empty();
+        Piece rook = new Rook(PlayerColour.WHITE);
+        Piece enemyPiece = new Knight(PlayerColour.BLACK);
+        Coordinates rookCoords = new Coordinates(4, 4);
+        board.placePiece(rookCoords, rook);
+
+        Coordinates knightLeftCoords = new Coordinates(4, 1);
+        board.placePiece(knightLeftCoords, enemyPiece);
+
+        Coordinates knightRightCoords = new Coordinates(4, 6);
+        board.placePiece(knightRightCoords, enemyPiece);
+
+        Coordinates knightUpCoords = new Coordinates(1, 4);
+        board.placePiece(knightUpCoords, enemyPiece);
+
+        Coordinates knightDownCoords = new Coordinates(6, 4);
+        board.placePiece(knightDownCoords, enemyPiece);
+
+        // Act
+        List<Move> moves = rook.getAllowedMoves(rookCoords, board);
+
+        // Assert
+        List <Move> impossibleMoves = new ArrayList<>();
+
+        //knightLeftCoords
+        impossibleMoves.add(new Move(rookCoords, knightLeftCoords.plus(0,-1)));
+        //knightRightCoords
+        impossibleMoves.add(new Move(rookCoords, knightRightCoords.plus(0,1)));
+        //knightUpCoords
+        impossibleMoves.add(new Move(rookCoords, knightUpCoords.plus(-1,0)));
+        //knightDownCoords
         impossibleMoves.add(new Move(rookCoords, knightDownCoords.plus(1,0)));
 
         assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
