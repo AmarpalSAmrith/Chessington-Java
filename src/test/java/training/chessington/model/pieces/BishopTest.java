@@ -26,22 +26,13 @@ public class BishopTest {
 
         // Assert
         List<Move> possibleMoves = new ArrayList<>();
-        possibleMoves.add(new Move(coords, coords.plus(-1, -1))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-2, -2))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-3, -3))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-4, -4))); //UP LEFT
-
-        possibleMoves.add(new Move(coords, coords.plus(1, 1))); //DOWN RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(2, 2))); //DOWN RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(3, 3))); //DOWN RIGHT
-
-        possibleMoves.add(new Move(coords, coords.plus(-1, 1))); //UP RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(-2, 2))); //UP RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(-3, 3))); //UP RIGHT
-
-        possibleMoves.add(new Move(coords, coords.plus(1, -1))); //DOWN LEFT
-        possibleMoves.add(new Move(coords, coords.plus(2, -2))); //DOWN LEFT
-        possibleMoves.add(new Move(coords, coords.plus(3, -3))); //DOWN LEFT
+        for (int i = 1; i < 4; i++) {
+            possibleMoves.add(new Move(coords, coords.plus(-i, -i))); //UP LEFT
+            possibleMoves.add(new Move(coords, coords.plus(i, i))); //DOWN RIGHT
+            possibleMoves.add(new Move(coords, coords.plus(-i, i))); //UP RIGHT
+            possibleMoves.add(new Move(coords, coords.plus(i, -i))); //DOWN LEFT
+        }
+        possibleMoves.add(new Move(coords, coords.plus(-4, -4))); //UP LEFT exception move
 
         assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
     }

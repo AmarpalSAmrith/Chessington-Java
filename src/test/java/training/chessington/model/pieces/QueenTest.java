@@ -27,23 +27,13 @@ public class QueenTest {
         List<Move> possibleMoves = new ArrayList<>();
 
 //        Diagonal MOVES
-
-        possibleMoves.add(new Move(coords, coords.plus(-1, -1))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-2, -2))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-3, -3))); //UP LEFT
-        possibleMoves.add(new Move(coords, coords.plus(-4, -4))); //UP LEFT
-
-        possibleMoves.add(new Move(coords, coords.plus(1, 1))); //DOWN RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(2, 2))); //DOWN RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(3, 3))); //DOWN RIGHT
-
-        possibleMoves.add(new Move(coords, coords.plus(-1, 1))); //UP RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(-2, 2))); //UP RIGHT
-        possibleMoves.add(new Move(coords, coords.plus(-3, 3))); //UP RIGHT
-
-        possibleMoves.add(new Move(coords, coords.plus(1, -1))); //DOWN LEFT
-        possibleMoves.add(new Move(coords, coords.plus(2, -2))); //DOWN LEFT
-        possibleMoves.add(new Move(coords, coords.plus(3, -3))); //DOWN LEFT
+        for (int i = 1; i < 4; i++) {
+            possibleMoves.add(new Move(coords, coords.plus(-i, -i))); //UP LEFT
+            possibleMoves.add(new Move(coords, coords.plus(i, i))); //DOWN RIGHT
+            possibleMoves.add(new Move(coords, coords.plus(-i, i))); //UP RIGHT
+            possibleMoves.add(new Move(coords, coords.plus(i, -i))); //DOWN LEFT
+        }
+        possibleMoves.add(new Move(coords, coords.plus(-4, -4))); //UP LEFT exception move
 
 //        Straight LINES
 
@@ -138,27 +128,6 @@ public class QueenTest {
         assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
     }
     //                                       Straight Lines TESTS
-//    @Test
-//    public void queenCanMoveInStraightLines() {
-//        // Arrange
-//        Board board = Board.empty();
-//        Piece queen = new Queen(PlayerColour.BLACK);
-//        Coordinates coords = new Coordinates(4, 4);
-//        board.placePiece(coords, queen);
-//
-//        // Act
-//        List<Move> moves = queen.getAllowedMoves(coords, board);
-//
-//        // Assert
-//        List <Move> possibleMoves = new ArrayList<>();
-//        for (int i = -4; i < 4; i++) {
-//            if (i != 0) {
-//                possibleMoves.add(new Move(coords, coords.plus(i, 0)));
-//                possibleMoves.add(new Move(coords, coords.plus(0, i)));
-//            }
-//        }
-//        assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
-//    }
 
     @Test
     public void whiteQueenCannotMovePastAPieceStraight() {
