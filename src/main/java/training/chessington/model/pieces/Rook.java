@@ -19,90 +19,11 @@ public class Rook extends AbstractPiece {
         List<Move> allowedMove = new ArrayList<>();
 
         if (colour.equals(PlayerColour.WHITE) || colour.equals(PlayerColour.BLACK)) {
-            for (int i = 1; i < 8; i++) {
-                if (isInBoundries(from.plus(i, 0))) {
-
-                    if (isEmpty(from.plus(i, 0), board)) {
-                        allowedMove.add(new Move(from, from.plus(i, 0)));
-                    } else if (isEnemy(from.plus(i, 0), board)) {
-                        allowedMove.add(new Move(from, from.plus(i, 0)));
-                        break;
-                    } else if (isFriendly(from.plus(i, 0), board)) {
-                        break;
-                    }
-
-                } else {
-                    break;
-                }
-            }
-
-            for (int i = 1; i < 8; i++) {
-
-                if (isInBoundries(from.plus(0, i))) {
-
-                    if (isEmpty(from.plus(0, i), board)) {
-                        allowedMove.add(new Move(from, from.plus(0, i)));
-                    } else if (isEnemy(from.plus(0, i), board)) {
-                        allowedMove.add(new Move(from, from.plus(0, i)));
-                        break;
-                    } else if (isFriendly(from.plus(0, i), board)) {
-                        break;
-                    }
-
-                } else {
-                    break;
-                }
-            }
-
-            for (int i = 1; i < 8; i++) {
-                if (isInBoundries(from.plus(-i, 0))) {
-
-                    if (isEmpty(from.plus(-i, 0), board)) {
-                        allowedMove.add(new Move(from, from.plus(-i, 0)));
-                    } else if (isEnemy(from.plus(-i, 0), board)) {
-                        allowedMove.add(new Move(from, from.plus(-i, 0)));
-                        break;
-                    } else if (isFriendly(from.plus(-i, 0), board)) {
-                        break;
-                    }
-
-                } else {
-                    break;
-                }
-            }
-            for (int i = 1; i < 8; i++) {
-
-                if (isInBoundries(from.plus(0, -i))) {
-                    if (isEmpty(from.plus(0, -i), board)) {
-                        allowedMove.add(new Move(from, from.plus(0, -i)));
-                    } else if (isEnemy(from.plus(0, -i), board)) {
-                        allowedMove.add(new Move(from, from.plus(0, -i)));
-                        break;
-                    } else if (isFriendly(from.plus(0, -i), board)) {
-                        break;
-                    }
-                } else {
-                    break;
-                }
-            }
-
+            allowedMove.addAll(allowedMoveConstructor(from, board,0,1)); // RIGHT
+            allowedMove.addAll(allowedMoveConstructor(from, board,0,-1)); // LEFT
+            allowedMove.addAll(allowedMoveConstructor(from, board,-1,0)); // UP
+            allowedMove.addAll(allowedMoveConstructor(from, board,1,0)); // DOWN
         }
         return allowedMove;
-    }
-
-    private boolean isInBoundries(Coordinates to) {
-        return to.getCol() >= 0 && to.getCol() < 8 && to.getRow() >= 0 && to.getRow() < 8;
-    }
-
-    private boolean isEmpty(Coordinates to, Board board) {
-        return board.get(to) == null;
-    }
-
-    private boolean isEnemy(Coordinates to, Board board) {
-        return !board.get(to).getColour().equals(colour);
-    }
-
-    private boolean isFriendly(Coordinates to, Board board) {
-        return board.get(to).getColour().equals(colour);
     }
 }

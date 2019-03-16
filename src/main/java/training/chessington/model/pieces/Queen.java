@@ -17,4 +17,5 @@ public class Queen extends AbstractPiece {
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
         return new ArrayList<>();
     }
+
 }
