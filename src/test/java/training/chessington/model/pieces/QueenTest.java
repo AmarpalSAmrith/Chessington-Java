@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 public class QueenTest {
     //Diagonal TESTS
     @Test
-    public void queenCanMoveDiagonallyLines() {
+    public void queenCanMoveDiagonallyAndInStraightLines() {
         // Arrange
         Board board = Board.empty();
         Piece queen = new Queen(PlayerColour.BLACK);
@@ -25,6 +25,9 @@ public class QueenTest {
 
         // Assert
         List<Move> possibleMoves = new ArrayList<>();
+
+//        Diagonal MOVES
+
         possibleMoves.add(new Move(coords, coords.plus(-1, -1))); //UP LEFT
         possibleMoves.add(new Move(coords, coords.plus(-2, -2))); //UP LEFT
         possibleMoves.add(new Move(coords, coords.plus(-3, -3))); //UP LEFT
@@ -42,10 +45,19 @@ public class QueenTest {
         possibleMoves.add(new Move(coords, coords.plus(2, -2))); //DOWN LEFT
         possibleMoves.add(new Move(coords, coords.plus(3, -3))); //DOWN LEFT
 
+//        Straight LINES
+
+        for (int i = -4; i < 4; i++) {
+            if (i != 0) {
+                possibleMoves.add(new Move(coords, coords.plus(i, 0)));
+                possibleMoves.add(new Move(coords, coords.plus(0, i)));
+            }
+        }
+
         assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
     }
     @Test
-    public void whiteQueenCannotMovePastFriendlyPiece() {
+    public void whiteQueenCannotMovePastFriendlyPieceDiagonally() {
         // Arrange
         Board board = Board.empty();
         Piece queen = new Queen(PlayerColour.WHITE);
@@ -88,7 +100,7 @@ public class QueenTest {
     }
 
     @Test
-    public void whiteQueenCanTakeEnemyPiece() {
+    public void whiteQueenCanTakeEnemyPieceDiagonally() {
         // Arrange
         Board board = Board.empty();
         Piece queen = new Queen(PlayerColour.WHITE);
@@ -125,31 +137,31 @@ public class QueenTest {
 
         assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
     }
-    //Straight Lines TESTS
+    //                                       Straight Lines TESTS
+//    @Test
+//    public void queenCanMoveInStraightLines() {
+//        // Arrange
+//        Board board = Board.empty();
+//        Piece queen = new Queen(PlayerColour.BLACK);
+//        Coordinates coords = new Coordinates(4, 4);
+//        board.placePiece(coords, queen);
+//
+//        // Act
+//        List<Move> moves = queen.getAllowedMoves(coords, board);
+//
+//        // Assert
+//        List <Move> possibleMoves = new ArrayList<>();
+//        for (int i = -4; i < 4; i++) {
+//            if (i != 0) {
+//                possibleMoves.add(new Move(coords, coords.plus(i, 0)));
+//                possibleMoves.add(new Move(coords, coords.plus(0, i)));
+//            }
+//        }
+//        assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
+//    }
+
     @Test
-    public void queenCanMoveInStraightLines() {
-        // Arrange
-        Board board = Board.empty();
-        Piece queen = new Queen(PlayerColour.BLACK);
-        Coordinates coords = new Coordinates(4, 4);
-        board.placePiece(coords, queen);
-
-        // Act
-        List<Move> moves = queen.getAllowedMoves(coords, board);
-
-        // Assert
-        List <Move> possibleMoves = new ArrayList<>();
-        for (int i = -4; i < 4; i++) {
-            if (i != 0) {
-                possibleMoves.add(new Move(coords, coords.plus(i, 0)));
-                possibleMoves.add(new Move(coords, coords.plus(0, i)));
-            }
-        }
-        assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
-    }
-
-    @Test
-    public void whiteRookCannotMovePastAPiece() {
+    public void whiteQueenCannotMovePastAPieceStraight() {
         // Arrange
         Board board = Board.empty();
         Piece queen = new Queen(PlayerColour.WHITE);
@@ -191,7 +203,7 @@ public class QueenTest {
         assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
     }
     @Test
-    public void whiteRookCanTakeEnemyPiece() {
+    public void whiteQueenCanTakeEnemyPieceStraight() {
         // Arrange
         Board board = Board.empty();
         Piece queen = new Queen(PlayerColour.WHITE);

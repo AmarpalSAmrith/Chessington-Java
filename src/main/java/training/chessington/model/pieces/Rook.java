@@ -15,15 +15,6 @@ public class Rook extends AbstractPiece {
 
     @Override
     public List<Move> getAllowedMoves(Coordinates from, Board board) {
-
-        List<Move> allowedMove = new ArrayList<>();
-
-        if (colour.equals(PlayerColour.WHITE) || colour.equals(PlayerColour.BLACK)) {
-            allowedMove.addAll(allowedMoveConstructor(from, board,0,1)); // RIGHT
-            allowedMove.addAll(allowedMoveConstructor(from, board,0,-1)); // LEFT
-            allowedMove.addAll(allowedMoveConstructor(from, board,-1,0)); // UP
-            allowedMove.addAll(allowedMoveConstructor(from, board,1,0)); // DOWN
-        }
-        return allowedMove;
+        return straightMoves(from, board);
     }
 }
