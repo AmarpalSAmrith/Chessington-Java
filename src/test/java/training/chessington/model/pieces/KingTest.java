@@ -40,4 +40,178 @@ public class KingTest {
         }
         assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
     }
+    @Test
+    public void whiteKingCannotMovePastFriendlyPieceDiagonally() {
+        // Arrange
+        Board board = Board.empty();
+        Piece king = new King(PlayerColour.WHITE);
+        Piece friendlyPiece = new Knight(PlayerColour.WHITE);
+        Coordinates kingCoords = new Coordinates(4, 4);
+        board.placePiece(kingCoords, king);
+
+        Coordinates knightUpLeftCoords = new Coordinates(3, 3);
+        board.placePiece(knightUpLeftCoords, friendlyPiece);
+
+        Coordinates knightUpRightCoords = new Coordinates(3, 5);
+        board.placePiece(knightUpRightCoords, friendlyPiece);
+
+        Coordinates knightDownRightCoords = new Coordinates(5, 5);
+        board.placePiece(knightDownRightCoords, friendlyPiece);
+
+        Coordinates knightDownLeftCoords = new Coordinates(5, 3);
+        board.placePiece(knightDownLeftCoords, friendlyPiece);
+
+        // Act
+        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+
+        // Assert
+        List <Move> impossibleMoves = new ArrayList<>();
+
+        //knightUpLeftCoords
+        impossibleMoves.add(new Move(kingCoords, knightUpLeftCoords));
+        //knightUpRightCoords
+        impossibleMoves.add(new Move(kingCoords, knightUpRightCoords));
+        //knightDownLeftCoords
+        impossibleMoves.add(new Move(kingCoords, knightDownLeftCoords));
+        //knightDownRightCoords
+        impossibleMoves.add(new Move(kingCoords, knightDownRightCoords));
+
+        assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
+    }
+
+    @Test
+    public void whiteKingCanTakeEnemyPieceDiagonallyAndStraight() {
+        // Arrange
+        Board board = Board.empty();
+        Piece king = new King(PlayerColour.WHITE);
+        Piece enemyPiece = new Knight(PlayerColour.BLACK);
+        Coordinates kingCoords = new Coordinates(4, 4);
+        board.placePiece(kingCoords, king);
+        // Diagonal Moves
+        Coordinates knightUpLeftCoords = new Coordinates(3, 3);
+        board.placePiece(knightUpLeftCoords, enemyPiece);
+
+        Coordinates knightUpRightCoords = new Coordinates(3, 5);
+        board.placePiece(knightUpRightCoords, enemyPiece);
+
+        Coordinates knightDownRightCoords = new Coordinates(5, 5);
+        board.placePiece(knightDownRightCoords, enemyPiece);
+
+        Coordinates knightDownLeftCoords = new Coordinates(5, 3);
+        board.placePiece(knightDownLeftCoords, enemyPiece);
+        // Straight Moves
+        Coordinates knightLeftCoords = new Coordinates(4, 3);
+        board.placePiece(knightLeftCoords, enemyPiece);
+
+        Coordinates knightRightCoords = new Coordinates(4, 5);
+        board.placePiece(knightRightCoords, enemyPiece);
+
+        Coordinates knightUpCoords = new Coordinates(3, 4);
+        board.placePiece(knightUpCoords, enemyPiece);
+
+        Coordinates knightDownCoords = new Coordinates(5, 4);
+        board.placePiece(knightDownCoords, enemyPiece);
+
+        // Act
+        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+
+        // Assert
+        List <Move> possibleMoves = new ArrayList<>();
+
+        //knightUpLeftCoords
+        possibleMoves.add(new Move(kingCoords, knightUpLeftCoords));
+        //knightUpRightCoords
+        possibleMoves.add(new Move(kingCoords, knightUpRightCoords));
+        //knightDownLeftCoords
+        possibleMoves.add(new Move(kingCoords, knightDownLeftCoords));
+        //knightDownRightCoords
+        possibleMoves.add(new Move(kingCoords, knightDownRightCoords));
+        //knightLeftCoords
+        possibleMoves.add(new Move(kingCoords, knightLeftCoords));
+        //knightRightCoords
+        possibleMoves.add(new Move(kingCoords, knightRightCoords));
+        //knightUpCoords
+        possibleMoves.add(new Move(kingCoords, knightUpCoords));
+        //knightDownCoords
+        possibleMoves.add(new Move(kingCoords, knightDownCoords));
+        assertThat(moves).containsExactlyInAnyOrder(possibleMoves.toArray(new Move[0]));
+    }
+    //                                       Straight Lines TESTS
+
+    @Test
+    public void whiteKingCannotMovePastAFriendlyPieceStraight() {
+        // Arrange
+        Board board = Board.empty();
+        Piece king = new King(PlayerColour.WHITE);
+        Piece friendlyPiece = new Knight(PlayerColour.WHITE);
+        Coordinates kingCoords = new Coordinates(4, 4);
+        board.placePiece(kingCoords, king);
+
+        Coordinates knightLeftCoords = new Coordinates(4, 3);
+        board.placePiece(knightLeftCoords, friendlyPiece);
+
+        Coordinates knightRightCoords = new Coordinates(4, 5);
+        board.placePiece(knightRightCoords, friendlyPiece);
+
+        Coordinates knightUpCoords = new Coordinates(3, 4);
+        board.placePiece(knightUpCoords, friendlyPiece);
+
+        Coordinates knightDownCoords = new Coordinates(5, 4);
+        board.placePiece(knightDownCoords, friendlyPiece);
+
+        // Act
+        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+
+        // Assert
+        List <Move> impossibleMoves = new ArrayList<>();
+
+        //knightLeftCoords
+        impossibleMoves.add(new Move(kingCoords, knightLeftCoords));
+        //knightRightCoords
+        impossibleMoves.add(new Move(kingCoords, knightRightCoords));
+        //knightUpCoords
+        impossibleMoves.add(new Move(kingCoords, knightUpCoords));
+        //knightDownCoords
+        impossibleMoves.add(new Move(kingCoords, knightDownCoords));
+
+        assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
+    }
+//    @Test
+//    public void whiteKingCanTakeEnemyPieceStraight() {
+//        // Arrange
+//        Board board = Board.empty();
+//        Piece king = new King(PlayerColour.WHITE);
+//        Piece enemyPiece = new Knight(PlayerColour.BLACK);
+//        Coordinates kingCoords = new Coordinates(4, 4);
+//        board.placePiece(kingCoords, king);
+//
+//        Coordinates knightLeftCoords = new Coordinates(4, 3);
+//        board.placePiece(knightLeftCoords, enemyPiece);
+//
+//        Coordinates knightRightCoords = new Coordinates(4, 5);
+//        board.placePiece(knightRightCoords, enemyPiece);
+//
+//        Coordinates knightUpCoords = new Coordinates(3, 4);
+//        board.placePiece(knightUpCoords, enemyPiece);
+//
+//        Coordinates knightDownCoords = new Coordinates(5, 4);
+//        board.placePiece(knightDownCoords, enemyPiece);
+//
+//        // Act
+//        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+//
+//        // Assert
+//        List <Move> impossibleMoves = new ArrayList<>();
+//
+//        //knightLeftCoords
+//        impossibleMoves.add(new Move(kingCoords, knightLeftCoords));
+//        //knightRightCoords
+//        impossibleMoves.add(new Move(kingCoords, knightRightCoords));
+//        //knightUpCoords
+//        impossibleMoves.add(new Move(kingCoords, knightUpCoords));
+//        //knightDownCoords
+//        impossibleMoves.add(new Move(kingCoords, knightDownCoords));
+//
+//        assertThat(moves).containsExactlyInAnyOrder(impossibleMoves.toArray(new Move[0]));
+//    }
 }

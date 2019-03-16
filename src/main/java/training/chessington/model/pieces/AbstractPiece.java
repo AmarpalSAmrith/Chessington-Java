@@ -93,16 +93,19 @@ public abstract class AbstractPiece implements Piece {
         }
         return allowedMove;
     }
-    protected Move allowedIndividualMove(Coordinates from, Coordinates to, Board board) {
-
-        if (isInBoundaries(to)) {
-            if (isEmpty(to, board)) {
-                return new Move(from, to);
-            } else if (isEnemy(to, board)) {
-                return new Move(from, to);
+    protected List <Move> allowedIndividualMove(Coordinates from, List <Coordinates> to, Board board) {
+        List <Move> allowedMoves = new ArrayList<>();
+        for (int i = 0; i < to.size(); i++) {
+            Coordinates toCoords = to.get(i);
+            if (isInBoundaries(toCoords)) {
+                if (isEmpty(toCoords, board)) {
+                    allowedMoves.add(new Move(from, toCoords));
+                } else if (isEnemy(toCoords, board)) {
+                    allowedMoves.add(new Move(from, toCoords));
+                }
+                }
             }
-        } else {
-            return null;
+        return allowedMoves;
         }
     }
-}
+
