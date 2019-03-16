@@ -93,4 +93,16 @@ public abstract class AbstractPiece implements Piece {
         }
         return allowedMove;
     }
+    protected Move allowedIndividualMove(Coordinates from, Coordinates to, Board board) {
+
+        if (isInBoundaries(to)) {
+            if (isEmpty(to, board)) {
+                return new Move(from, to);
+            } else if (isEnemy(to, board)) {
+                return new Move(from, to);
+            }
+        } else {
+            return null;
+        }
+    }
 }
