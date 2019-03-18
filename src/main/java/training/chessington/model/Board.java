@@ -49,4 +49,7 @@ public class Board {
     public void placePiece(Coordinates coords, Piece piece) {
         board[coords.getRow()][coords.getCol()] = piece;
     }
+    public void obliterate(Coordinates coords) {
+        board[coords.getRow()][coords.getCol()] = null;
+    }
 }

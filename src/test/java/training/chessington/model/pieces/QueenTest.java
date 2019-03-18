@@ -1,10 +1,7 @@
 package training.chessington.model.pieces;
 
 import org.junit.Test;
-import training.chessington.model.Board;
-import training.chessington.model.Coordinates;
-import training.chessington.model.Move;
-import training.chessington.model.PlayerColour;
+import training.chessington.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +13,13 @@ public class QueenTest {
     public void queenCanMoveDiagonallyAndInStraightLines() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece queen = new Queen(PlayerColour.BLACK);
         Coordinates coords = new Coordinates(4, 4);
         board.placePiece(coords, queen);
 
         // Act
-        List<Move> moves = queen.getAllowedMoves(coords, board);
+        List<Move> moves = queen.getAllowedMoves(coords, game);
 
         // Assert
         List<Move> possibleMoves = new ArrayList<>();
@@ -50,6 +48,7 @@ public class QueenTest {
     public void whiteQueenCannotMovePastFriendlyPieceDiagonally() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece queen = new Queen(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates queenCoords = new Coordinates(4, 4);
@@ -68,7 +67,7 @@ public class QueenTest {
         board.placePiece(knightDownLeftCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = queen.getAllowedMoves(queenCoords, board);
+        List<Move> moves = queen.getAllowedMoves(queenCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -93,6 +92,7 @@ public class QueenTest {
     public void whiteQueenCanTakeEnemyPieceDiagonally() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece queen = new Queen(PlayerColour.WHITE);
         Piece enemyPiece = new Knight(PlayerColour.BLACK);
         Coordinates queenCoords = new Coordinates(4, 4);
@@ -111,7 +111,7 @@ public class QueenTest {
         board.placePiece(knightDownLeftCoords, enemyPiece);
 
         // Act
-        List<Move> moves = queen.getAllowedMoves(queenCoords, board);
+        List<Move> moves = queen.getAllowedMoves(queenCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -133,6 +133,7 @@ public class QueenTest {
     public void whiteQueenCannotMovePastAPieceStraight() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece queen = new Queen(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates queenCoords = new Coordinates(4, 4);
@@ -151,7 +152,7 @@ public class QueenTest {
         board.placePiece(knightDownCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = queen.getAllowedMoves(queenCoords, board);
+        List<Move> moves = queen.getAllowedMoves(queenCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -175,6 +176,7 @@ public class QueenTest {
     public void whiteQueenCanTakeEnemyPieceStraight() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece queen = new Queen(PlayerColour.WHITE);
         Piece enemyPiece = new Knight(PlayerColour.BLACK);
         Coordinates queenCoords = new Coordinates(4, 4);
@@ -193,7 +195,7 @@ public class QueenTest {
         board.placePiece(knightDownCoords, enemyPiece);
 
         // Act
-        List<Move> moves = queen.getAllowedMoves(queenCoords, board);
+        List<Move> moves = queen.getAllowedMoves(queenCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();

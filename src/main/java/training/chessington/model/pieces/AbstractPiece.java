@@ -83,6 +83,7 @@ public abstract class AbstractPiece implements Piece {
     }
 
     protected List<Move> straightMoves(Coordinates from, Board board) {
+
         List<Move> allowedMove = new ArrayList<>();
 
         if (colour.equals(PlayerColour.WHITE) || colour.equals(PlayerColour.BLACK)) {
@@ -107,5 +108,11 @@ public abstract class AbstractPiece implements Piece {
             }
         return allowedMoves;
         }
+    protected boolean isAllowed(Move move, Board board) {
+        if (!(move.getTo().getCol() >= 0 && move.getTo().getCol() <= 7 && move.getTo().getRow() >= 0 && move.getTo().getRow() <= 7)) {
+            return false;
+        }
+        return board.get(move.getTo()) == null || !board.get(move.getTo()).getColour().equals(colour);
+    }
     }
 

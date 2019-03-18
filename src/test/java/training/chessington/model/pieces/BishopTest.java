@@ -1,10 +1,7 @@
 package training.chessington.model.pieces;
 
 import org.junit.Test;
-import training.chessington.model.Board;
-import training.chessington.model.Coordinates;
-import training.chessington.model.Move;
-import training.chessington.model.PlayerColour;
+import training.chessington.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +14,13 @@ public class BishopTest {
     public void bishopCanMoveDiagonallyLines() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece bishop = new Bishop(PlayerColour.BLACK);
         Coordinates coords = new Coordinates(4, 4);
         board.placePiece(coords, bishop);
 
         // Act
-        List<Move> moves = bishop.getAllowedMoves(coords, board);
+        List<Move> moves = bishop.getAllowedMoves(coords, game);
 
         // Assert
         List<Move> possibleMoves = new ArrayList<>();
@@ -40,6 +38,7 @@ public class BishopTest {
     public void whiteBishopCannotMovePastFriendlyPiece() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece bishop = new Bishop(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates bishopCoords = new Coordinates(4, 4);
@@ -58,7 +57,7 @@ public class BishopTest {
         board.placePiece(knightDownLeftCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = bishop.getAllowedMoves(bishopCoords, board);
+        List<Move> moves = bishop.getAllowedMoves(bishopCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -83,6 +82,7 @@ public class BishopTest {
     public void whiteRookCanTakeEnemyPiece() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece bishop = new Bishop(PlayerColour.WHITE);
         Piece enemyPiece = new Knight(PlayerColour.BLACK);
         Coordinates bishopCoords = new Coordinates(4, 4);
@@ -101,7 +101,7 @@ public class BishopTest {
         board.placePiece(knightDownLeftCoords, enemyPiece);
 
         // Act
-        List<Move> moves = bishop.getAllowedMoves(bishopCoords, board);
+        List<Move> moves = bishop.getAllowedMoves(bishopCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();

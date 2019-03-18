@@ -2,6 +2,8 @@ package training.chessington.view;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +12,7 @@ import training.chessington.model.InvalidMoveException;
 import training.chessington.model.Move;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class ChessApp extends Parent {
@@ -84,6 +87,7 @@ public class ChessApp extends Parent {
             validMoveSquares.add(targetSquare);
             targetSquare.showAsMoveOption();
         }
+
     }
 
     private void redrawPieces() {
@@ -99,6 +103,30 @@ public class ChessApp extends Parent {
             for (int col = 0; col < Game.SIZE; col++) {
                 squares[row][col].resetHighlighting();
             }
+        }
+    }
+    private void msgToUser() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog with Custom Actions");
+        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
+        alert.setContentText("Choose your option.");
+
+        ButtonType buttonTypeOne = new ButtonType("One");
+        ButtonType buttonTypeTwo = new ButtonType("Two");
+        ButtonType buttonTypeThree = new ButtonType("Three");
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo, buttonTypeThree, buttonTypeCancel);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeOne){
+            // ... user chose "One"
+        } else if (result.get() == buttonTypeTwo) {
+            // ... user chose "Two"
+        } else if (result.get() == buttonTypeThree) {
+            // ... user chose "Three"
+        } else {
+            // ... user chose CANCEL or closed the dialog
         }
     }
 }

@@ -1,10 +1,7 @@
 package training.chessington.model.pieces;
 
 import org.junit.Test;
-import training.chessington.model.Board;
-import training.chessington.model.Coordinates;
-import training.chessington.model.Move;
-import training.chessington.model.PlayerColour;
+import training.chessington.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +16,13 @@ public class KingTest {
 
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece king = new King(PlayerColour.BLACK);
         Coordinates coords = new Coordinates(4, 4);
         board.placePiece(coords, king);
 
         // Act
-        List<Move> moves = king.getAllowedMoves(coords, board);
+        List<Move> moves = king.getAllowedMoves(coords, game);
 
         // Assert
         List<Move> possibleMoves = new ArrayList<>();
@@ -44,6 +42,7 @@ public class KingTest {
     public void whiteKingCannotMovePastFriendlyPieceDiagonally() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece king = new King(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates kingCoords = new Coordinates(4, 4);
@@ -62,7 +61,7 @@ public class KingTest {
         board.placePiece(knightDownLeftCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+        List<Move> moves = king.getAllowedMoves(kingCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -83,6 +82,7 @@ public class KingTest {
     public void whiteKingCanTakeEnemyPieceDiagonallyAndStraight() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece king = new King(PlayerColour.WHITE);
         Piece enemyPiece = new Knight(PlayerColour.BLACK);
         Coordinates kingCoords = new Coordinates(4, 4);
@@ -113,7 +113,7 @@ public class KingTest {
         board.placePiece(knightDownCoords, enemyPiece);
 
         // Act
-        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+        List<Move> moves = king.getAllowedMoves(kingCoords, game);
 
         // Assert
         List <Move> possibleMoves = new ArrayList<>();
@@ -142,6 +142,7 @@ public class KingTest {
     public void whiteKingCannotMovePastAFriendlyPieceStraight() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece king = new King(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates kingCoords = new Coordinates(4, 4);
@@ -160,7 +161,7 @@ public class KingTest {
         board.placePiece(knightDownCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = king.getAllowedMoves(kingCoords, board);
+        List<Move> moves = king.getAllowedMoves(kingCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -176,42 +177,4 @@ public class KingTest {
 
         assertThat(moves).doesNotContain(impossibleMoves.toArray(new Move[0]));
     }
-//    @Test
-//    public void whiteKingCanTakeEnemyPieceStraight() {
-//        // Arrange
-//        Board board = Board.empty();
-//        Piece king = new King(PlayerColour.WHITE);
-//        Piece enemyPiece = new Knight(PlayerColour.BLACK);
-//        Coordinates kingCoords = new Coordinates(4, 4);
-//        board.placePiece(kingCoords, king);
-//
-//        Coordinates knightLeftCoords = new Coordinates(4, 3);
-//        board.placePiece(knightLeftCoords, enemyPiece);
-//
-//        Coordinates knightRightCoords = new Coordinates(4, 5);
-//        board.placePiece(knightRightCoords, enemyPiece);
-//
-//        Coordinates knightUpCoords = new Coordinates(3, 4);
-//        board.placePiece(knightUpCoords, enemyPiece);
-//
-//        Coordinates knightDownCoords = new Coordinates(5, 4);
-//        board.placePiece(knightDownCoords, enemyPiece);
-//
-//        // Act
-//        List<Move> moves = king.getAllowedMoves(kingCoords, board);
-//
-//        // Assert
-//        List <Move> impossibleMoves = new ArrayList<>();
-//
-//        //knightLeftCoords
-//        impossibleMoves.add(new Move(kingCoords, knightLeftCoords));
-//        //knightRightCoords
-//        impossibleMoves.add(new Move(kingCoords, knightRightCoords));
-//        //knightUpCoords
-//        impossibleMoves.add(new Move(kingCoords, knightUpCoords));
-//        //knightDownCoords
-//        impossibleMoves.add(new Move(kingCoords, knightDownCoords));
-//
-//        assertThat(moves).containsExactlyInAnyOrder(impossibleMoves.toArray(new Move[0]));
-//    }
 }

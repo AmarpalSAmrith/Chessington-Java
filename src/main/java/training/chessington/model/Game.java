@@ -1,6 +1,7 @@
 package training.chessington.model;
 
 import training.chessington.model.pieces.*;
+import training.chessington.view.ChessApp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,13 @@ public class Game {
 
     private boolean isEnded = false;
 
+    private List<MoveWithPiece> gameHistory;
+
+    private 
+
     public Game(Board board) {
         this.board = board;
+        this.gameHistory = new ArrayList<>();
     }
 
     public Piece pieceAt(int row, int col) {
@@ -31,7 +37,7 @@ public class Game {
             return new ArrayList<>();
         }
 
-        return piece.getAllowedMoves(from, board);
+        return piece.getAllowedMoves(from, this);
     }
 
     public void makeMove(Move move) throws InvalidMoveException {
@@ -51,11 +57,23 @@ public class Game {
             throw new InvalidMoveException(String.format("Wrong colour piece - it is %s's turn", nextPlayer));
         }
 
-        if (!piece.getAllowedMoves(move.getFrom(), board).contains(move)) {
+        if (!piece.getAllowedMoves(move.getFrom(), this).contains(move)) {
             throw new InvalidMoveException(String.format("Cannot move piece %s from %s to %s", piece, from, to));
         }
 
+        if (getGameHistory().size() > 0) {
+            MoveWithPiece lastMove = getGameHistory().get(getGameHistory().size() - 1);
+            if (lastMove.getPiece().getType() == Piece.PieceType.PAWN && Math.abs(lastMove.getMove().getFrom().getRow() - lastMove.getMove().getTo().getRow()) == 2) {
+                Coordinates skippedSquare = lastMove.getPiece().getColour() == PlayerColour.WHITE ? lastMove.getMove().getTo().plus(1, 0) : lastMove.getMove().getTo().plus(-1, 0);
+                if (to.equals(skippedSquare)) {
+                    board.obliterate(lastMove.getMove().getTo());
+                }
+            }
+        }
+
+
         board.move(from, to);
+        gameHistory.add(new MoveWithPiece(new Move(from, to), piece));
         nextPlayer = nextPlayer == PlayerColour.WHITE ? PlayerColour.BLACK : PlayerColour.WHITE;
     }
 
@@ -65,5 +83,13 @@ public class Game {
 
     public String getResult() {
         return null;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public List<MoveWithPiece> getGameHistory() {
+        return gameHistory;
     }
 }

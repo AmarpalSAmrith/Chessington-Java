@@ -1,10 +1,7 @@
 package training.chessington.model.pieces;
 
 import org.junit.Test;
-import training.chessington.model.Board;
-import training.chessington.model.Coordinates;
-import training.chessington.model.Move;
-import training.chessington.model.PlayerColour;
+import training.chessington.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +14,13 @@ public class RookTest {
     public void rookCanMoveInStraightLines() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece rook = new Rook(PlayerColour.BLACK);
         Coordinates coords = new Coordinates(4, 4);
         board.placePiece(coords, rook);
 
         // Act
-        List<Move> moves = rook.getAllowedMoves(coords, board);
+        List<Move> moves = rook.getAllowedMoves(coords, game);
 
         // Assert
         List <Move> possibleMoves = new ArrayList<>();
@@ -39,6 +37,7 @@ public class RookTest {
     public void whiteRookCannotMovePastAPiece() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece rook = new Rook(PlayerColour.WHITE);
         Piece friendlyPiece = new Knight(PlayerColour.WHITE);
         Coordinates rookCoords = new Coordinates(4, 4);
@@ -57,7 +56,7 @@ public class RookTest {
         board.placePiece(knightDownCoords, friendlyPiece);
 
         // Act
-        List<Move> moves = rook.getAllowedMoves(rookCoords, board);
+        List<Move> moves = rook.getAllowedMoves(rookCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();
@@ -81,6 +80,7 @@ public class RookTest {
     public void whiteRookCanTakeEnemyPiece() {
         // Arrange
         Board board = Board.empty();
+        Game game = new Game(board);
         Piece rook = new Rook(PlayerColour.WHITE);
         Piece enemyPiece = new Knight(PlayerColour.BLACK);
         Coordinates rookCoords = new Coordinates(4, 4);
@@ -99,7 +99,7 @@ public class RookTest {
         board.placePiece(knightDownCoords, enemyPiece);
 
         // Act
-        List<Move> moves = rook.getAllowedMoves(rookCoords, board);
+        List<Move> moves = rook.getAllowedMoves(rookCoords, game);
 
         // Assert
         List <Move> impossibleMoves = new ArrayList<>();

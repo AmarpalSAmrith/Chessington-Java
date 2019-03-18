@@ -1,9 +1,6 @@
 package training.chessington.model.pieces;
 
-import training.chessington.model.Board;
-import training.chessington.model.Coordinates;
-import training.chessington.model.Move;
-import training.chessington.model.PlayerColour;
+import training.chessington.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +11,7 @@ public class Rook extends AbstractPiece {
     }
 
     @Override
-    public List<Move> getAllowedMoves(Coordinates from, Board board) {
-        return straightMoves(from, board);
+    public List<Move> getAllowedMoves(Coordinates from, Game game) {
+        return straightMoves(from, game.getBoard());
     }
 }
